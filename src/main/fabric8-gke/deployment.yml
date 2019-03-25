@@ -1,0 +1,8 @@
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+        - env:
+          - name: JAVA_OPTIONS
+            value: -Duser.timezone=Europe/Zurich -Dspring.profiles.active=gke

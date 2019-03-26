@@ -1,4 +1,3 @@
-
 def label = "maven-${UUID.randomUUID().toString()}"
 def service = "microservice"
 def dockerRegistry = "eu.gcr.io"
@@ -67,6 +66,7 @@ volumes: [
 					.
 				"""
 			}
+		}
 	}
 }
 

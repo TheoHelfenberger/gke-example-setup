@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: database-env-cm
+data:
+  GKE_DEMO_DB: svcuser
+  GKE_DEMO_DB_HOST: 10.241.128.5:3306
+  GKE_DEMO_DB_PASS: svcuser
+  GKE_DEMO_DB_USER: svcuser

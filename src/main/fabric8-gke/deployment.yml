@@ -4,5 +4,51 @@ spec:
     spec:
       containers:
         - env:
-          - name: JAVA_OPTIONS
-            value: -Duser.timezone=Europe/Zurich -Dspring.profiles.active=gke
+            - name: JAVA_OPTIONS
+              value: -Duser.timezone=Europe/Zurich -Dspring.profiles.active=gke
+            - name: GKE_DEMO_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: database-env-cm
+                  key: GKE_DEMO_DB
+            - name: GKE_DEMO_DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: database-env-cm
+                  key: GKE_DEMO_DB_HOST
+            - name: GKE_DEMO_DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: database-env-cm
+                  key: GKE_DEMO_DB_USER
+            - name: GKE_DEMO_DB_PASS
+              valueFrom:
+                configMapKeyRef:
+                  name: database-env-cm
+                  key: GKE_DEMO_DB_PASS
+            - name: CLOUD_SQL_INSTANCE
+              valueFrom:
+                configMapKeyRef:
+                  name: database-env-cm
+                  key: CLOUD_SQL_INSTANCE
+        - name: cloudsql-proxy
+          image: gcr.io/cloudsql-docker/gce-proxy:1.11
+          command:
+            [
+              "/cloud_sql_proxy",
+              "-instances=${CLOUD_SQL_INSTANCE}=tcp:3306",
+              "-credential_file=/secrets/cloudsql/sa_sql_dd-experiment-dev-0001.json",
+            ]
+            # [START cloudsql_security_context]
+          securityContext:
+            runAsUser: 2 # non-root user
+            allowPrivilegeEscalation: false
+            # [END cloudsql_security_context]
+          volumeMounts:
+            - name: cloudsql-instance-credentials
+              mountPath: /secrets/cloudsql
+              readOnly: true
+      volumes:
+        - name: cloudsql-instance-credentials
+          secret:
+            secretName: sa-cloud-sql

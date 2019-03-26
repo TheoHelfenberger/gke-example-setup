@@ -3,9 +3,9 @@ spring:
     active: gke
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://127.0.0.1/microservice?useUnicode=true&characterEncoding=utf8&useSSL=false
+    url: jdbc:mysql://${GKE_DEMO_DB_HOST}/${GKE_DEMO_DB}?useUnicode=true&characterEncoding=utf8&useSSL=false
     name: null
-    username: gke-demo
+    username: ${GKE_DEMO_DB_USER}
     password: ${GKE_DEMO_DB_PASS}
     hikari:
       data-source-properties:

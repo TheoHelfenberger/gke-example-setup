@@ -40,6 +40,6 @@ podTemplate(label: label,
 }
 
 def mvn(String command) {
-   sh "mvn --batch-mode -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn ${command}"
+   sh "mvn --batch-mode  -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn ${command}"
 }
 

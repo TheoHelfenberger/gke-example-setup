@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name:
+    microservice-ingress
+  labels:
+    tier: svc
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.org/websocket-services: microservice
+spec:
+  rules:
+    - host: microservice.rathergo.party
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: microservice
+              servicePort: 8080
+  tls:
+    - secretName: tls-rathergoparty-prod
+      hosts:
+        - microservice.rathergo.party

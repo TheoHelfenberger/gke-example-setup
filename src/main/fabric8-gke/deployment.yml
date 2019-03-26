@@ -31,24 +31,3 @@ spec:
                 configMapKeyRef:
                   name: database-env-cm
                   key: CLOUD_SQL_INSTANCE
-        - name: cloudsql-proxy
-          image: gcr.io/cloudsql-docker/gce-proxy:1.11
-          command:
-            [
-              "/cloud_sql_proxy",
-              "-instances=${CLOUD_SQL_INSTANCE}=tcp:3306",
-              "-credential_file=/secrets/cloudsql/sa_sql_dd-experiment-dev-0001.json",
-            ]
-            # [START cloudsql_security_context]
-          securityContext:
-            runAsUser: 2 # non-root user
-            allowPrivilegeEscalation: false
-            # [END cloudsql_security_context]
-          volumeMounts:
-            - name: cloudsql-instance-credentials
-              mountPath: /secrets/cloudsql
-              readOnly: true
-      volumes:
-        - name: cloudsql-instance-credentials
-          secret:
-            secretName: sa-cloud-sql

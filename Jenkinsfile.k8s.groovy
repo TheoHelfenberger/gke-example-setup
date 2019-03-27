@@ -57,7 +57,7 @@ volumes: [
 
 		container('helm-kubectl') {
 			def tag = "${dockerRegistry}/${gkeProject}/it/${service}:${imageTag}"
-			dir('src/k8s/helm/microservice') {
+			dir('k8s/helm/microservice') {
 				sh """
 					helm upgrade -i --name microservice --values=values.yaml \
 					--namespace it \
